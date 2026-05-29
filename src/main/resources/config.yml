@@ -91,6 +91,37 @@ mob-limiter:
   # 刷怪抑制 - 当玩家附近的实体数超过此值时停止刷怪
   spawn-suppress-threshold: 40
 
+# ─── 漏斗优化 ───
+hopper:
+  # 是否启用漏斗优化
+  enabled: true
+  # 漏斗冷却 tick（增加此值可减少漏斗检查频率，降低卡顿）
+  cooldown: 2
+  # 每 tick 最大处理的漏斗数（分散负载，避免卡顿）
+  max-per-tick: 20
+
+# ─── TNT 优化 ───
+tnt:
+  # 是否启用 TNT 优化
+  enabled: true
+  # 同一位置最大连续 TNT 爆炸数（超过此值触发限制）
+  chain-limit-per-location: 3
+  # 是否取消过量的链式爆炸
+  cancel-excessive-chain: true
+  # TNT 爆炸半径（0=使用默认值）
+  explosion-radius: 0
+  # TNT 最大破坏方块数（0=不限制）
+  max-block-break: 0
+  # TNT 威力（-1=使用默认值）
+  yield: -1
+
+# ─── AI 优化 ───
+ai:
+  # 是否启用 AI 优化
+  enabled: true
+  # AI 冻结范围（方块）- 超出此范围的实体冰冻 AI
+  freeze-range: 48
+
 # ─── 性能监控 ───
 monitoring:
   # 是否启用性能监控

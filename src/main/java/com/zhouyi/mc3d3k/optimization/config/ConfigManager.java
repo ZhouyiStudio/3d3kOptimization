@@ -18,6 +18,23 @@ public class ConfigManager {
     private int autoSaveInterval;
     private boolean checkUpdate;
 
+    // ─── 漏斗优化 ───
+    private boolean hopperOptimizerEnabled;
+    private int hopperCooldown;
+    private int hopperMaxPerTick;
+
+    // ─── TNT 优化 ───
+    private boolean tntOptimizerEnabled;
+    private int tntChainLimitPerLocation;
+    private boolean tntCancelExcessiveChain;
+    private float tntExplosionRadius;
+    private int tntMaxBlockBreak;
+    private float tntYield;
+
+    // ─── AI 优化 ───
+    private boolean aiOptimizerEnabled;
+    private int aiFreezeRange;
+
     // 实体优化
     private boolean entityOptimizerEnabled;
     private final Map<String, Integer> activationRanges = new HashMap<>();
@@ -142,6 +159,23 @@ public class ConfigManager {
         this.disableWeather = config.getBoolean("misc.disable-weather", false);
         this.disableLightning = config.getBoolean("misc.disable-lightning", false);
         this.mergeXp = config.getBoolean("misc.merge-xp", true);
+
+        // 漏斗优化
+        this.hopperOptimizerEnabled = config.getBoolean("hopper.enabled", true);
+        this.hopperCooldown = config.getInt("hopper.cooldown", 2);
+        this.hopperMaxPerTick = config.getInt("hopper.max-per-tick", 20);
+
+        // TNT 优化
+        this.tntOptimizerEnabled = config.getBoolean("tnt.enabled", true);
+        this.tntChainLimitPerLocation = config.getInt("tnt.chain-limit-per-location", 3);
+        this.tntCancelExcessiveChain = config.getBoolean("tnt.cancel-excessive-chain", true);
+        this.tntExplosionRadius = (float) config.getDouble("tnt.explosion-radius", 0.0);
+        this.tntMaxBlockBreak = config.getInt("tnt.max-block-break", 0);
+        this.tntYield = (float) config.getDouble("tnt.yield", -1.0);
+
+        // AI 优化
+        this.aiOptimizerEnabled = config.getBoolean("ai.enabled", true);
+        this.aiFreezeRange = config.getInt("ai.freeze-range", 48);
     }
 
     // ─── Getter 方法 ───
@@ -300,5 +334,55 @@ public class ConfigManager {
 
     public boolean isMergeXp() {
         return mergeXp;
+    }
+
+    // ─── 漏斗优化 Getter ───
+
+    public boolean isHopperOptimizerEnabled() {
+        return hopperOptimizerEnabled;
+    }
+
+    public int getHopperCooldown() {
+        return hopperCooldown;
+    }
+
+    public int getHopperMaxPerTick() {
+        return hopperMaxPerTick;
+    }
+
+    // ─── TNT 优化 Getter ───
+
+    public boolean isTntOptimizerEnabled() {
+        return tntOptimizerEnabled;
+    }
+
+    public int getTntChainLimitPerLocation() {
+        return tntChainLimitPerLocation;
+    }
+
+    public boolean isTntCancelExcessiveChain() {
+        return tntCancelExcessiveChain;
+    }
+
+    public float getTntExplosionRadius() {
+        return tntExplosionRadius;
+    }
+
+    public int getTntMaxBlockBreak() {
+        return tntMaxBlockBreak;
+    }
+
+    public float getTntYield() {
+        return tntYield;
+    }
+
+    // ─── AI 优化 Getter ───
+
+    public boolean isAiOptimizerEnabled() {
+        return aiOptimizerEnabled;
+    }
+
+    public int getAiFreezeRange() {
+        return aiFreezeRange;
     }
 }

@@ -4,10 +4,13 @@ import com.zhouyi.mc3d3k.optimization.commands.MainCommand;
 import com.zhouyi.mc3d3k.optimization.config.ConfigManager;
 import com.zhouyi.mc3d3k.optimization.listeners.OptimizationListener;
 import com.zhouyi.mc3d3k.optimization.monitor.PerformanceMonitor;
+import com.zhouyi.mc3d3k.optimization.optimizers.AIOptimizer;
 import com.zhouyi.mc3d3k.optimization.optimizers.ChunkOptimizer;
 import com.zhouyi.mc3d3k.optimization.optimizers.EntityOptimizer;
+import com.zhouyi.mc3d3k.optimization.optimizers.HopperOptimizer;
 import com.zhouyi.mc3d3k.optimization.optimizers.MobLimiter;
 import com.zhouyi.mc3d3k.optimization.optimizers.RedstoneOptimizer;
+import com.zhouyi.mc3d3k.optimization.optimizers.TNTOptimizer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,6 +31,9 @@ public class Plugin3d3k extends JavaPlugin {
     private MobLimiter mobLimiter;
     private PerformanceMonitor performanceMonitor;
     private OptimizationListener optimizationListener;
+    private HopperOptimizer hopperOptimizer;
+    private TNTOptimizer tntOptimizer;
+    private AIOptimizer aiOptimizer;
 
     private boolean enabledAll;
 
@@ -88,6 +94,20 @@ public class Plugin3d3k extends JavaPlugin {
             chunkOptimizer.cleanup();
         }
 
+        // 关闭优化器
+        if (entityOptimizer != null) {
+            entityOptimizer.shutdown();
+        }
+        if (hopperOptimizer != null) {
+            hopperOptimizer.shutdown();
+        }
+        if (tntOptimizer != null) {
+            tntOptimizer.shutdown();
+        }
+        if (aiOptimizer != null) {
+            aiOptimizer.shutdown();
+        }
+
         getLogger().info("3d3kOptimization 已卸载。");
         instance = null;
     }
@@ -129,11 +149,35 @@ public class Plugin3d3k extends JavaPlugin {
             getLogger().info("✓ 生物限制已加载");
         }
 
+        // 漏斗优化
+        if (configManager.isHopperOptimizerEnabled()) {
+            this.hopperOptimizer = new HopperOptimizer(this);
+            hopperOptimizer.init();
+            getLogger().info("✓ 漏斗优化已加载");
+        }
+
+        // TNT 优化
+        if (configManager.isTntOptimizerEnabled()) {
+            this.tntOptimizer = new TNTOptimizer(this);
+            tntOptimizer.init();
+            getLogger().info("✓ TNT 优化已加载");
+        }
+
+        // AI 优化
+        if (configManager.isAiOptimizerEnabled()) {
+            this.aiOptimizer = new AIOptimizer(this);
+            aiOptimizer.init();
+            getLogger().info("✓ AI 优化已加载");
+        }
+
         this.enabledAll =
                 configManager.isEntityOptimizerEnabled() &&
                 configManager.isRedstoneOptimizerEnabled() &&
                 configManager.isChunkOptimizerEnabled() &&
-                configManager.isMobLimiterEnabled();
+                configManager.isMobLimiterEnabled() &&
+                configManager.isHopperOptimizerEnabled() &&
+                configManager.isTntOptimizerEnabled() &&
+                configManager.isAiOptimizerEnabled();
     }
 
     private void registerListeners() {
