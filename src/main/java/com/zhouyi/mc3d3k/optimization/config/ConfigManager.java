@@ -202,7 +202,7 @@ public class ConfigManager {
 
         // 性能监控
         this.monitoringEnabled = config.getBoolean("monitoring.enabled", true);
-        this.monitorInterval = config.getInt("monitoring.interval", 100);
+        this.monitorInterval = config.getInt("monitoring.interval", 12000);
         this.tpsAlertThreshold = config.getDouble("monitoring.tps-alert-threshold", 16.0);
         this.printToConsole = config.getBoolean("monitoring.print-to-console", true);
         this.broadcastPermission = config.getString("monitoring.broadcast-permission", "3d3k.status");

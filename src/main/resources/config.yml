@@ -127,7 +127,7 @@ monitoring:
   # 是否启用性能监控
   enabled: true
   # 监控间隔（tick）
-  interval: 100
+  interval: 12000
   # TPS 告警阈值（低于此值时发送告警）
   tps-alert-threshold: 16.0
   # 是否在控制台打印性能报告
