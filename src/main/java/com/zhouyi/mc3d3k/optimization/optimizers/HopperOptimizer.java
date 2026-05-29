@@ -77,12 +77,8 @@ public class HopperOptimizer {
             // 跳过已移除的漏斗（BlockState 可能已过期）
             if (!((org.bukkit.block.BlockState) hopper).isPlaced()) continue;
 
-            // 设置自定义冷却时间（tick）
-            // 通过 setCooldown 减少漏斗检查频率
-            int cooldown = config.getHopperCooldown();
-            if (cooldown > 0 && hopper.getCooldown() < cooldown) {
-                hopper.setCooldown(cooldown);
-            }
+            // 漏斗冷却由分批处理机制控制（maxPerTick + 循环索引），
+            // 无需额外 setCooldown — Purpur 1.21.1 API 已移除 Hopper::setCooldown
         }
 
         currentIndex = (currentIndex + maxPerTick >= size) ? 0 : currentIndex + maxPerTick;
