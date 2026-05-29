@@ -80,7 +80,9 @@ public class AIOptimizer {
                     // 远离玩家 - 冻结 AI
                     if (frozenEntities.add(uuid)) {
                         // 仅在状态变化时操作，减少性能开销
-                        entity.setAI(false);
+                        if (entity instanceof Mob) {
+                            ((Mob) entity).setAI(false);
+                        }
                         // 标记静止
                         entity.setVelocity(entity.getVelocity().zero());
                     }
@@ -88,7 +90,9 @@ public class AIOptimizer {
                 } else {
                     // 在玩家附近 - 如果有 AI 被冻结，恢复
                     if (frozenEntities.contains(uuid)) {
-                        entity.setAI(true);
+                        if (entity instanceof Mob) {
+                            ((Mob) entity).setAI(true);
+                        }
                         frozenEntities.remove(uuid);
                     }
                 }
@@ -110,8 +114,8 @@ public class AIOptimizer {
         // 恢复所有被冻结的实体
         for (UUID uuid : frozenEntities) {
             Entity entity = Bukkit.getEntity(uuid);
-            if (entity != null && !entity.isDead()) {
-                entity.setAI(true);
+            if (entity instanceof Mob && !entity.isDead()) {
+                ((Mob) entity).setAI(true);
             }
         }
         frozenEntities.clear();

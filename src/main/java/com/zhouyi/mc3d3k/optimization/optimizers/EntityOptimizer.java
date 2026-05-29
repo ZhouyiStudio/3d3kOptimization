@@ -72,7 +72,7 @@ public class EntityOptimizer {
      */
     private void mergeItems() {
         for (World world : Bukkit.getWorlds()) {
-            List<Item> items = world.getEntitiesByClass(Item.class);
+            List<Item> items = new ArrayList<>(world.getEntitiesByClass(Item.class));
             if (items.size() < 2) continue;
 
             // 按物品类型和位置分组
@@ -156,7 +156,7 @@ public class EntityOptimizer {
         int removed = 0;
 
         // 清除多余的掉落物
-        List<Item> items = world.getEntitiesByClass(Item.class);
+        List<Item> items = new ArrayList<>(world.getEntitiesByClass(Item.class));
         for (Item item : items) {
             if (!item.isValid()) continue;
             int maxAge = config.isValuableItem(item.getItemStack().getType().name())

@@ -52,10 +52,15 @@ public class HopperOptimizer {
         for (World world : Bukkit.getWorlds()) {
             // 只处理有玩家的世界
             if (world.getPlayers().isEmpty()) continue;
-            // 通过区块实体获取漏斗（不做全量扫描，只处理已加载区块中的漏斗）
-            // 注意：getEntitiesByClass 只获取已加载实体
-            allHoppers.addAll(world.getEntitiesByClass(Hopper.class));
-        }
+                // 遍历已加载区块，获取漏斗方块实体
+            for (org.bukkit.Chunk chunk : world.getLoadedChunks()) {
+                for (org.bukkit.block.BlockState state : chunk.getTileEntities()) {
+                    if (state instanceof Hopper) {
+                        allHoppers.add((Hopper) state);
+                    }
+                }
+            }
+            }
 
         if (allHoppers.isEmpty()) return;
 
@@ -68,7 +73,9 @@ public class HopperOptimizer {
         int end = Math.min(currentIndex + maxPerTick, size);
         for (int i = currentIndex; i < end; i++) {
             Hopper hopper = allHoppers.get(i);
-            if (hopper.isDead() || !hopper.isValid()) continue;
+            // Hopper 是方块实体，不需要 isDead/isValid 检查
+            // 跳过已移除的漏斗（BlockState 可能已过期）
+            if (!((org.bukkit.block.BlockState) hopper).isPlaced()) continue;
 
             // 设置自定义冷却时间（tick）
             // 通过 setCooldown 减少漏斗检查频率

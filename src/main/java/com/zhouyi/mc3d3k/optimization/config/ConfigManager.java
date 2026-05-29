@@ -468,6 +468,80 @@ public class ConfigManager {
         return aiFreezeRange;
     }
 
+    // ─── 村民优化 Getter ───
+
+    public boolean isVillagerOptimizerEnabled() {
+        return villagerOptimizerEnabled;
+    }
+
+    public boolean isVillagerLimitGossip() {
+        return villagerLimitGossip;
+    }
+
+    public boolean isVillagerDisableBreeding() {
+        return villagerDisableBreeding;
+    }
+
+    public boolean isVillagerLimitAITasks() {
+        return villagerLimitAITasks;
+    }
+
+    public double getVillagerGossipSkipChance() {
+        return villagerSkipChance;
+    }
+
+    public int getVillagerFreezeRange() {
+        return villagerFreezeRange;
+    }
+
+    // ─── 碰撞优化 Getter ───
+
+    public boolean isCollisionOptimizerEnabled() {
+        return collisionOptimizerEnabled;
+    }
+
+    public int getCollisionCheckInterval() {
+        return collisionCheckInterval;
+    }
+
+    public boolean isCollisionLimitPerChunk() {
+        return collisionLimitPerChunk;
+    }
+
+    public int getCollisionMaxEntitiesPerChunk() {
+        return collisionMaxEntitiesPerChunk;
+    }
+
+    public boolean isCollisionAutoScale() {
+        return collisionAutoScale;
+    }
+
+    public double getCollisionTpsThreshold() {
+        return collisionTpsThreshold;
+    }
+
+    // ─── 光照优化 Getter ───
+
+    public boolean isLightOptimizerEnabled() {
+        return lightOptimizerEnabled;
+    }
+
+    public boolean isLightThrottleUpdates() {
+        return lightThrottleUpdates;
+    }
+
+    public boolean isLightUnloadFarChunks() {
+        return lightUnloadRange > 0;
+    }
+
+    public int getLightMaxQueueSize() {
+        return lightMaxQueueSize;
+    }
+
+    public int getLightUnloadRange() {
+        return lightUnloadRange;
+    }
+
     // ─── 异常检测 Getter ───
 
     public boolean isDetectionEnabled() {
