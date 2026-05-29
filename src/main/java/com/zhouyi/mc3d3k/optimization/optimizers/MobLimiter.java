@@ -4,6 +4,7 @@ import com.zhouyi.mc3d3k.optimization.Plugin3d3k;
 import com.zhouyi.mc3d3k.optimization.config.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
