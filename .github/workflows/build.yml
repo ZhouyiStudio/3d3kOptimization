@@ -34,8 +34,23 @@ jobs:
           # Update plugin.yml version
           sed -i "s|^version: '.*'|version: '${VER}'|" src/main/resources/plugin.yml
 
-      - name: Build with Maven
-        run: mvn clean package --batch-mode
+      - name: Build with Maven (with retry)
+        run: |
+          for i in 1 2 3; do
+            echo "=== Build attempt $i ==="
+            mvn clean package --batch-mode -Dmaven.wagon.http.retryHandler.count=5
+            if [ $? -eq 0 ]; then
+              echo "=== Build succeeded on attempt $i ==="
+              break
+            fi
+            if [ $i -lt 3 ]; then
+              echo "=== Build failed, waiting 15s before retry... ==="
+              sleep 15
+            else
+              echo "=== All 3 attempts failed ==="
+              exit 1
+            fi
+          done
 
       - name: List artifacts
         run: |
