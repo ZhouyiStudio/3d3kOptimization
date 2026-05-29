@@ -1,0 +1,120 @@
+# 3d3kOptimization 配置文件
+# Purpur 1.21.1 服务器性能优化
+
+# ─── 通用设置 ───
+settings:
+  # 是否启用调试日志
+  debug: false
+  # 配置自动保存间隔（分钟）
+  auto-save-interval: 10
+  # 更新检查
+  check-update: true
+
+# ─── 实体优化 ───
+entity:
+  # 是否启用实体优化
+  enabled: true
+  # 实体激活范围（方块）
+  activation-range:
+    monster: 32
+    animal: 48
+    water: 16
+    flying: 48
+    villager: 48
+  # 掉落物合并间隔（tick）
+  item-merge-interval: 20
+  # 掉落物最大存活时间（秒），-1 为不限制
+  item-despawn-time:
+    default: 300
+    valuable: 600
+    # 有价值的物品（不合并/延长存活）
+    valuable-items:
+      - DIAMOND
+      - NETHERITE_SCRAP
+      - NETHERITE_INGOT
+      - ELYTRA
+      - SHULKER_SHELL
+  # 经验球合并距离（方块）
+  xp-merge-radius: 8
+  # 是否禁用盔甲架
+  disable-armor-stands: false
+  # 是否禁用画
+  disable-paintings: false
+
+# ─── 红石优化 ───
+redstone:
+  # 是否启用红石优化
+  enabled: true
+  # 是否禁用高频红石检测（每 tick 激活次数超过此值时阻止）
+  limit-high-frequency: true
+  # 高频阈值（每 tick 激活次数）
+  high-frequency-threshold: 15
+  # 高频惩罚 tick（阻止后续激活的 tick 数）
+  high-frequency-penalty: 4
+  # 是否禁用活塞
+  disable-pistons: false
+
+# ─── 区块优化 ───
+chunk:
+  # 是否启用区块优化
+  enabled: true
+  # 玩家视距（区块）
+  view-distance: 8
+  # 实体视距（区块）
+  entity-view-distance: 4
+  # 区块卸载延迟（秒）
+  unload-delay: 15
+  # 每 tick 最大卸载区块数
+  max-unloads-per-tick: 20
+
+# ─── 生物限制 ───
+mob-limiter:
+  # 是否启用生物限制
+  enabled: true
+  # 每个区块最大生物数（-1 为不限制）
+  max-mobs-per-chunk: 25
+  # 每种生物每区块上限
+  per-type:
+    CREEPER: 8
+    ZOMBIE: 15
+    SKELETON: 10
+    SPIDER: 8
+    ENDERMAN: 4
+    WITCH: 3
+    PHANTOM: 3
+  # 全局实体上限
+  global:
+    monsters: 200
+    animals: 100
+    water: 40
+    flying: 60
+  # 刷怪抑制 - 当玩家附近的实体数超过此值时停止刷怪
+  spawn-suppress-threshold: 40
+
+# ─── 性能监控 ───
+monitoring:
+  # 是否启用性能监控
+  enabled: true
+  # 监控间隔（tick）
+  interval: 100
+  # TPS 告警阈值（低于此值时发送告警）
+  tps-alert-threshold: 16.0
+  # 是否在控制台打印性能报告
+  print-to-console: true
+  # 性能报告广播权限
+  broadcast-permission: 3d3k.status
+
+# ─── 杂项优化 ───
+misc:
+  # 是否禁用村民交易闪烁
+  disable-villager-trade-glitch: true
+  # 是否禁用藤蔓生长
+  disable-vine-growth: false
+  # 是否禁用树叶腐烂
+  disable-leaf-decay: false
+  # 是否禁用天气
+  disable-weather: false
+  # 是否禁用雷击
+  disable-lightning: false
+  # 经验球合并
+  merge-xp: true

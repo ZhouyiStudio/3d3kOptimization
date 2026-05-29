@@ -1,0 +1,24 @@
+name: 3d3kOptimization
+version: '1.0.0'
+main: com.atomgit.plugin3d3k.Plugin3d3k
+api-version: '1.21'
+author: AtomGit
+description: ✨ 3d3kmc 服务器全方位性能优化插件 | 实体优化·红石抑制·区块管理·生物限制·TPS监控 | 专为 Purpur 1.21.1 设计
+website: https://github.com/AtomGit/3d3kOptimization
+
+folia-supported: true
+
+commands:
+  3d3k:
+    description: 3d3kOptimization 主命令
+    usage: /<command> <reload|status|gc|entities|chunks>
+    aliases: [optimize]
+    permission: 3d3k.admin
+
+permissions:
+  3d3k.admin:
+    description: 允许使用所有 3d3kOptimization 命令
+    default: op
+  3d3k.status:
+    description: 查看服务器性能状态
+    default: true
