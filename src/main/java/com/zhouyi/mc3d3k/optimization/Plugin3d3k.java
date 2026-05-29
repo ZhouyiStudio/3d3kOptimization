@@ -66,7 +66,7 @@ public class Plugin3d3k extends JavaPlugin {
                 Component.text("│  §b3d3kOptimization §fv" + getDescription().getVersion() + " §7已加载      │", NamedTextColor.AQUA)
         );
         getServer().getConsoleSender().sendMessage(
-                Component.text("│  §7适配 §ePurpur 1.21.1 §7- §b3d3kmc §7服务器  │", NamedTextColor.AQUA)
+                Component.text("│  §7适配 §ePurpur 1.21.1 §7- §b3d3k §7服务器  │", NamedTextColor.AQUA)
         );
         getServer().getConsoleSender().sendMessage(
                 Component.text("└──────────────────────────────────────────┘", NamedTextColor.AQUA)

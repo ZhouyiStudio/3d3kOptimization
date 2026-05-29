@@ -3,7 +3,7 @@ version: '1.0.0'
 main: com.zhouyi.mc3d3k.optimization.Plugin3d3k
 api-version: '1.21'
 author: AtomGit
-description: ✨ 3d3kmc 服务器全方位性能优化插件 | 实体优化·红石抑制·区块管理·生物限制·TPS监控 | 专为 Purpur 1.21.1 设计
+description: ✨ 3d3k 服务器全方位性能优化插件 | 实体优化·红石抑制·区块管理·生物限制·TPS监控 | 专为 Purpur 1.21.1 设计
 website: https://github.com/AtomGit/3d3kOptimization
 
 folia-supported: true

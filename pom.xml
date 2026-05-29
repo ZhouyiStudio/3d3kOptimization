@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <name>3d3kOptimization</name>
-    <description>✨ 3d3kmc 服务器全方位性能优化插件 — 实体合并 / 高频红石抑制 / 智能区块管理 / 生物数量限制 / TPS 实时监控，专为 Purpur 1.21.1 打造</description>
+    <description>✨ 3d3k 服务器全方位性能优化插件 — 实体合并 / 高频红石抑制 / 智能区块管理 / 生物数量限制 / TPS 实时监控，专为 Purpur 1.21.1 打造</description>
 
     <properties>
         <java.version>17</java.version>
