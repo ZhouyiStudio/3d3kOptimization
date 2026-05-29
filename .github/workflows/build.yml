@@ -32,7 +32,7 @@ jobs:
           # Update pom.xml version
           sed -i "s|<version>1.0.0</version>|<version>${VER#v}</version>|" pom.xml
           # Update plugin.yml version
-          sed -i "s|^version: '.*'|version: '${VER}'|" src/main/resources/plugin.yml
+          sed -i "s|^version: '.*'|version: '${VER#v}'|" src/main/resources/plugin.yml
 
       - name: Build with Maven (with retry)
         run: |

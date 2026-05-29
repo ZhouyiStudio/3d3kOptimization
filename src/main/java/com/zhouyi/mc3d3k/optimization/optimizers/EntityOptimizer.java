@@ -84,7 +84,7 @@ public class EntityOptimizer {
                 // 跳过有价值的物品
                 if (config.isValuableItem(item.getItemStack().getType().name())) {
                     // 延长存活时间
-                    item.setTicksLived(0);
+                    item.setTicksLived(1);
                     continue;
                 }
 
