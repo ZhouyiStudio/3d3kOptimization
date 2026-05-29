@@ -1,9 +1,8 @@
-# 3d3kOptimization - README
-# Purpur 1.21.1 服务器性能优化插件
+# 3d3k服务器性能优化插件
 
 ## 概述
 
-3d3kOptimization 是一个专为 **3d3k** 服务器设计的 Purpur 1.21.1 性能优化插件。
+3d3kOptimization 是一个专为 **3d3k** 服务器设计的Purpur 1.21.11性能优化插件。
 集成多种优化策略，全方位提升服务器性能。
 
 ## 功能特性
