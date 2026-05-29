@@ -180,6 +180,39 @@ collision:
   # TPS 阈值（低于此值自动缩减碰撞检测）
   tps-threshold: 17.0
 
+# ─── 玩家优化 ───
+player:
+  # 是否启用玩家优化
+  enabled: true
+  # 自动 AFK
+  auto-afk:
+    # 是否启用 AFK 检测
+    enabled: true
+    # AFK 超时时间（秒）
+    timeout: 300
+    # 超时后是否踢出玩家（false 仅警告）
+    kick: true
+    # 踢出前是否警告
+    warn-before-kick: true
+    # 踢出前提前警告时间（秒）
+    warn-seconds: 30
+  # 动态视距
+  dynamic-view-distance:
+    # 是否启用动态视距
+    enabled: true
+    # 视距最小值（区块）
+    min-view-distance: 4
+    # TPS 阈值（低于此值缩减视距）
+    tps-threshold: 17.0
+  # 交互节流
+  action-throttle:
+    # 是否启用交互节流
+    enabled: true
+    # 容器打开最小间隔（tick）
+    container-open-interval: 10
+    # 命令执行最小间隔（tick）
+    command-interval: 2
+
 # ─── 光照优化 ───
 light:
   # 是否启用光照优化

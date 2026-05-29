@@ -13,6 +13,7 @@ import com.zhouyi.mc3d3k.optimization.optimizers.MobLimiter;
 import com.zhouyi.mc3d3k.optimization.optimizers.RedstoneOptimizer;
 import com.zhouyi.mc3d3k.optimization.optimizers.CollisionOptimizer;
 import com.zhouyi.mc3d3k.optimization.optimizers.LightOptimizer;
+import com.zhouyi.mc3d3k.optimization.optimizers.PlayerOptimizer;
 import com.zhouyi.mc3d3k.optimization.optimizers.TNTOptimizer;
 import com.zhouyi.mc3d3k.optimization.optimizers.VillagerOptimizer;
 import net.kyori.adventure.text.Component;
@@ -41,6 +42,7 @@ public class Plugin3d3k extends JavaPlugin {
     private VillagerOptimizer villagerOptimizer;
     private CollisionOptimizer collisionOptimizer;
     private LightOptimizer lightOptimizer;
+    private PlayerOptimizer playerOptimizer;
     private DetectionManager detectionManager;
 
     private boolean enabledAll;
@@ -132,6 +134,9 @@ public class Plugin3d3k extends JavaPlugin {
         if (lightOptimizer != null) {
             lightOptimizer.shutdown();
         }
+        if (playerOptimizer != null) {
+            playerOptimizer.shutdown();
+        }
 
         getLogger().info("3d3kOptimization 已卸载。");
         instance = null;
@@ -216,6 +221,12 @@ public class Plugin3d3k extends JavaPlugin {
             getLogger().info("✓ 光照优化已加载");
         }
 
+        // 玩家优化
+        if (configManager.isPlayerOptimizerEnabled()) {
+            this.playerOptimizer = new PlayerOptimizer(this);
+            playerOptimizer.init();
+        }
+
         this.enabledAll =
                 configManager.isEntityOptimizerEnabled() &&
                 configManager.isRedstoneOptimizerEnabled() &&
@@ -226,7 +237,8 @@ public class Plugin3d3k extends JavaPlugin {
                 configManager.isAiOptimizerEnabled() &&
                 configManager.isVillagerOptimizerEnabled() &&
                 configManager.isCollisionOptimizerEnabled() &&
-                configManager.isLightOptimizerEnabled();
+                configManager.isLightOptimizerEnabled() &&
+                configManager.isPlayerOptimizerEnabled();
     }
 
     private void registerListeners() {
@@ -287,5 +299,9 @@ public class Plugin3d3k extends JavaPlugin {
 
     public DetectionManager getDetectionManager() {
         return detectionManager;
+    }
+
+    public PlayerOptimizer getPlayerOptimizer() {
+        return playerOptimizer;
     }
 }

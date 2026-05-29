@@ -57,6 +57,20 @@ public class ConfigManager {
     private int lightMaxQueueSize;
     private int lightUnloadRange;
 
+    // ─── 玩家优化 ───
+    private boolean playerOptimizerEnabled;
+    private boolean playerAfkEnabled;
+    private int playerAfkTimeout;
+    private boolean playerAfkKick;
+    private boolean playerAfkWarnBeforeKick;
+    private int playerAfkWarnSeconds;
+    private boolean playerDynamicViewDistanceEnabled;
+    private int playerDynamicViewMinDistance;
+    private double playerDynamicViewTpsThreshold;
+    private boolean playerActionThrottleEnabled;
+    private int playerActionContainerInterval;
+    private int playerActionCommandInterval;
+
     // 实体优化
     private boolean entityOptimizerEnabled;
     private final Map<String, Integer> activationRanges = new HashMap<>();
@@ -239,6 +253,20 @@ public class ConfigManager {
         this.lightThrottleUpdates = config.getBoolean("light.throttle-updates", true);
         this.lightMaxQueueSize = config.getInt("light.max-queue-size", 500);
         this.lightUnloadRange = config.getInt("light.unload-range", 12);
+
+        // 玩家优化
+        this.playerOptimizerEnabled = config.getBoolean("player.enabled", true);
+        this.playerAfkEnabled = config.getBoolean("player.auto-afk.enabled", true);
+        this.playerAfkTimeout = config.getInt("player.auto-afk.timeout", 300);
+        this.playerAfkKick = config.getBoolean("player.auto-afk.kick", true);
+        this.playerAfkWarnBeforeKick = config.getBoolean("player.auto-afk.warn-before-kick", true);
+        this.playerAfkWarnSeconds = config.getInt("player.auto-afk.warn-seconds", 30);
+        this.playerDynamicViewDistanceEnabled = config.getBoolean("player.dynamic-view-distance.enabled", true);
+        this.playerDynamicViewMinDistance = config.getInt("player.dynamic-view-distance.min-view-distance", 4);
+        this.playerDynamicViewTpsThreshold = config.getDouble("player.dynamic-view-distance.tps-threshold", 17.0);
+        this.playerActionThrottleEnabled = config.getBoolean("player.action-throttle.enabled", true);
+        this.playerActionContainerInterval = config.getInt("player.action-throttle.container-open-interval", 10);
+        this.playerActionCommandInterval = config.getInt("player.action-throttle.command-interval", 2);
 
         // ─── 异常检测 ───
         this.detectionEnabled = config.getBoolean("detection.enabled", true);
@@ -540,6 +568,56 @@ public class ConfigManager {
 
     public int getLightUnloadRange() {
         return lightUnloadRange;
+    }
+
+    // ─── 玩家优化 Getter ───
+
+    public boolean isPlayerOptimizerEnabled() {
+        return playerOptimizerEnabled;
+    }
+
+    public boolean isPlayerAfkEnabled() {
+        return playerAfkEnabled;
+    }
+
+    public int getPlayerAfkTimeout() {
+        return playerAfkTimeout;
+    }
+
+    public boolean isPlayerAfkKick() {
+        return playerAfkKick;
+    }
+
+    public boolean isPlayerAfkWarnBeforeKick() {
+        return playerAfkWarnBeforeKick;
+    }
+
+    public int getPlayerAfkWarnSeconds() {
+        return playerAfkWarnSeconds;
+    }
+
+    public boolean isPlayerDynamicViewDistanceEnabled() {
+        return playerDynamicViewDistanceEnabled;
+    }
+
+    public int getPlayerDynamicViewMinDistance() {
+        return playerDynamicViewMinDistance;
+    }
+
+    public double getPlayerDynamicViewTpsThreshold() {
+        return playerDynamicViewTpsThreshold;
+    }
+
+    public boolean isPlayerActionThrottleEnabled() {
+        return playerActionThrottleEnabled;
+    }
+
+    public int getPlayerActionContainerInterval() {
+        return playerActionContainerInterval;
+    }
+
+    public int getPlayerActionCommandInterval() {
+        return playerActionCommandInterval;
     }
 
     // ─── 异常检测 Getter ───
