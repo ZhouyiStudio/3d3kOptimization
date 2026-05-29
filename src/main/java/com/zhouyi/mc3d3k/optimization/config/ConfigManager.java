@@ -1,6 +1,6 @@
-package com.atomgit.plugin3d3k.config;
+package com.zhouyi.mc3d3k.optimization.config;
 
-import com.atomgit.plugin3d3k.Plugin3d3k;
+import com.zhouyi.mc3d3k.optimization.Plugin3d3k;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 

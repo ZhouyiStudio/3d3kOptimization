@@ -1,7 +1,7 @@
-package com.atomgit.plugin3d3k.listeners;
+package com.zhouyi.mc3d3k.optimization.listeners;
 
-import com.atomgit.plugin3d3k.Plugin3d3k;
-import com.atomgit.plugin3d3k.config.ConfigManager;
+import com.zhouyi.mc3d3k.optimization.Plugin3d3k;
+import com.zhouyi.mc3d3k.optimization.config.ConfigManager;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;

@@ -1,13 +1,13 @@
-package com.atomgit.plugin3d3k;
+package com.zhouyi.mc3d3k.optimization;
 
-import com.atomgit.plugin3d3k.commands.MainCommand;
-import com.atomgit.plugin3d3k.config.ConfigManager;
-import com.atomgit.plugin3d3k.listeners.OptimizationListener;
-import com.atomgit.plugin3d3k.monitor.PerformanceMonitor;
-import com.atomgit.plugin3d3k.optimizers.ChunkOptimizer;
-import com.atomgit.plugin3d3k.optimizers.EntityOptimizer;
-import com.atomgit.plugin3d3k.optimizers.MobLimiter;
-import com.atomgit.plugin3d3k.optimizers.RedstoneOptimizer;
+import com.zhouyi.mc3d3k.optimization.commands.MainCommand;
+import com.zhouyi.mc3d3k.optimization.config.ConfigManager;
+import com.zhouyi.mc3d3k.optimization.listeners.OptimizationListener;
+import com.zhouyi.mc3d3k.optimization.monitor.PerformanceMonitor;
+import com.zhouyi.mc3d3k.optimization.optimizers.ChunkOptimizer;
+import com.zhouyi.mc3d3k.optimization.optimizers.EntityOptimizer;
+import com.zhouyi.mc3d3k.optimization.optimizers.MobLimiter;
+import com.zhouyi.mc3d3k.optimization.optimizers.RedstoneOptimizer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.plugin.java.JavaPlugin;
