@@ -35,6 +35,28 @@ public class ConfigManager {
     private boolean aiOptimizerEnabled;
     private int aiFreezeRange;
 
+    // ─── 村民优化 ───
+    private boolean villagerOptimizerEnabled;
+    private double villagerSkipChance;
+    private int villagerFreezeRange;
+    private boolean villagerLimitGossip;
+    private boolean villagerDisableBreeding;
+    private boolean villagerLimitAITasks;
+
+    // ─── 碰撞优化 ───
+    private boolean collisionOptimizerEnabled;
+    private int collisionCheckInterval;
+    private boolean collisionLimitPerChunk;
+    private int collisionMaxEntitiesPerChunk;
+    private boolean collisionAutoScale;
+    private double collisionTpsThreshold;
+
+    // ─── 光照优化 ───
+    private boolean lightOptimizerEnabled;
+    private boolean lightThrottleUpdates;
+    private int lightMaxQueueSize;
+    private int lightUnloadRange;
+
     // 实体优化
     private boolean entityOptimizerEnabled;
     private final Map<String, Integer> activationRanges = new HashMap<>();
@@ -76,6 +98,25 @@ public class ConfigManager {
     private double tpsAlertThreshold;
     private boolean printToConsole;
     private String broadcastPermission;
+
+    // ─── 异常检测 ───
+    private boolean detectionEnabled;
+    private int detectionCheckInterval;
+    private boolean itemPileDetectionEnabled;
+    private int itemPileMaxPerChunk;
+    private int itemPileAlertCooldown;
+    private boolean entityDensityDetectionEnabled;
+    private int entityDensityThreshold;
+    private int entityDensityAlertCooldown;
+    private boolean chunkLoadDetectionEnabled;
+    private int chunkLoadEntityThreshold;
+    private int chunkLoadRedstoneThreshold;
+    private boolean spawnStormDetectionEnabled;
+    private int spawnStormMaxRate;
+    private int spawnStormSampleWindow;
+    private boolean playerBehaviorDetectionEnabled;
+    private int playerBehaviorMaxCommandsPerSecond;
+    private boolean playerBehaviorDetectHighFrequencyInteraction;
 
     // 杂项
     private boolean disableVillagerTradeGlitch;
@@ -176,6 +217,47 @@ public class ConfigManager {
         // AI 优化
         this.aiOptimizerEnabled = config.getBoolean("ai.enabled", true);
         this.aiFreezeRange = config.getInt("ai.freeze-range", 48);
+
+        // 村民优化
+        this.villagerOptimizerEnabled = config.getBoolean("villager.enabled", true);
+        this.villagerSkipChance = config.getDouble("villager.gossip-skip-chance", 0.3);
+        this.villagerFreezeRange = config.getInt("villager.freeze-range", 32);
+        this.villagerLimitGossip = config.getBoolean("villager.limit-gossip", true);
+        this.villagerDisableBreeding = config.getBoolean("villager.disable-breeding", false);
+        this.villagerLimitAITasks = config.getBoolean("villager.limit-ai-tasks", true);
+
+        // 碰撞优化
+        this.collisionOptimizerEnabled = config.getBoolean("collision.enabled", true);
+        this.collisionCheckInterval = config.getInt("collision.check-interval", 5);
+        this.collisionLimitPerChunk = config.getBoolean("collision.limit-per-chunk", true);
+        this.collisionMaxEntitiesPerChunk = config.getInt("collision.max-entities-per-chunk", 24);
+        this.collisionAutoScale = config.getBoolean("collision.auto-scale", true);
+        this.collisionTpsThreshold = config.getDouble("collision.tps-threshold", 17.0);
+
+        // 光照优化
+        this.lightOptimizerEnabled = config.getBoolean("light.enabled", true);
+        this.lightThrottleUpdates = config.getBoolean("light.throttle-updates", true);
+        this.lightMaxQueueSize = config.getInt("light.max-queue-size", 500);
+        this.lightUnloadRange = config.getInt("light.unload-range", 12);
+
+        // ─── 异常检测 ───
+        this.detectionEnabled = config.getBoolean("detection.enabled", true);
+        this.detectionCheckInterval = config.getInt("detection.check-interval", 100);
+        this.itemPileDetectionEnabled = config.getBoolean("detection.item-pile.enabled", true);
+        this.itemPileMaxPerChunk = config.getInt("detection.item-pile.max-per-chunk", 100);
+        this.itemPileAlertCooldown = config.getInt("detection.item-pile.alert-cooldown", 60);
+        this.entityDensityDetectionEnabled = config.getBoolean("detection.entity-density.enabled", true);
+        this.entityDensityThreshold = config.getInt("detection.entity-density.dense-threshold", 35);
+        this.entityDensityAlertCooldown = config.getInt("detection.entity-density.alert-cooldown", 120);
+        this.chunkLoadDetectionEnabled = config.getBoolean("detection.chunk-load.enabled", true);
+        this.chunkLoadEntityThreshold = config.getInt("detection.chunk-load.entity-threshold", 50);
+        this.chunkLoadRedstoneThreshold = config.getInt("detection.chunk-load.redstone-threshold", 80);
+        this.spawnStormDetectionEnabled = config.getBoolean("detection.spawn-storm.enabled", true);
+        this.spawnStormMaxRate = config.getInt("detection.spawn-storm.max-rate", 40);
+        this.spawnStormSampleWindow = config.getInt("detection.spawn-storm.sample-window", 100);
+        this.playerBehaviorDetectionEnabled = config.getBoolean("detection.player-behavior.enabled", true);
+        this.playerBehaviorMaxCommandsPerSecond = config.getInt("detection.player-behavior.max-commands-per-second", 10);
+        this.playerBehaviorDetectHighFrequencyInteraction = config.getBoolean("detection.player-behavior.detect-high-frequency-interaction", true);
     }
 
     // ─── Getter 方法 ───
@@ -384,5 +466,75 @@ public class ConfigManager {
 
     public int getAiFreezeRange() {
         return aiFreezeRange;
+    }
+
+    // ─── 异常检测 Getter ───
+
+    public boolean isDetectionEnabled() {
+        return detectionEnabled;
+    }
+
+    public int getDetectionCheckInterval() {
+        return detectionCheckInterval;
+    }
+
+    public boolean isItemPileDetectionEnabled() {
+        return itemPileDetectionEnabled;
+    }
+
+    public int getItemPileMaxPerChunk() {
+        return itemPileMaxPerChunk;
+    }
+
+    public int getItemPileAlertCooldown() {
+        return itemPileAlertCooldown;
+    }
+
+    public boolean isEntityDensityDetectionEnabled() {
+        return entityDensityDetectionEnabled;
+    }
+
+    public int getEntityDensityThreshold() {
+        return entityDensityThreshold;
+    }
+
+    public int getEntityDensityAlertCooldown() {
+        return entityDensityAlertCooldown;
+    }
+
+    public boolean isChunkLoadDetectionEnabled() {
+        return chunkLoadDetectionEnabled;
+    }
+
+    public int getChunkLoadEntityThreshold() {
+        return chunkLoadEntityThreshold;
+    }
+
+    public int getChunkLoadRedstoneThreshold() {
+        return chunkLoadRedstoneThreshold;
+    }
+
+    public boolean isSpawnStormDetectionEnabled() {
+        return spawnStormDetectionEnabled;
+    }
+
+    public int getSpawnStormMaxRate() {
+        return spawnStormMaxRate;
+    }
+
+    public int getSpawnStormSampleWindow() {
+        return spawnStormSampleWindow;
+    }
+
+    public boolean isPlayerBehaviorDetectionEnabled() {
+        return playerBehaviorDetectionEnabled;
+    }
+
+    public int getPlayerBehaviorMaxCommandsPerSecond() {
+        return playerBehaviorMaxCommandsPerSecond;
+    }
+
+    public boolean isPlayerBehaviorDetectHighFrequencyInteraction() {
+        return playerBehaviorDetectHighFrequencyInteraction;
     }
 }

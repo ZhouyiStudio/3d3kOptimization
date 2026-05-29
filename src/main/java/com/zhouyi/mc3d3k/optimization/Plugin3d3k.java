@@ -3,6 +3,7 @@ package com.zhouyi.mc3d3k.optimization;
 import com.zhouyi.mc3d3k.optimization.commands.MainCommand;
 import com.zhouyi.mc3d3k.optimization.config.ConfigManager;
 import com.zhouyi.mc3d3k.optimization.listeners.OptimizationListener;
+import com.zhouyi.mc3d3k.optimization.monitor.DetectionManager;
 import com.zhouyi.mc3d3k.optimization.monitor.PerformanceMonitor;
 import com.zhouyi.mc3d3k.optimization.optimizers.AIOptimizer;
 import com.zhouyi.mc3d3k.optimization.optimizers.ChunkOptimizer;
@@ -10,7 +11,10 @@ import com.zhouyi.mc3d3k.optimization.optimizers.EntityOptimizer;
 import com.zhouyi.mc3d3k.optimization.optimizers.HopperOptimizer;
 import com.zhouyi.mc3d3k.optimization.optimizers.MobLimiter;
 import com.zhouyi.mc3d3k.optimization.optimizers.RedstoneOptimizer;
+import com.zhouyi.mc3d3k.optimization.optimizers.CollisionOptimizer;
+import com.zhouyi.mc3d3k.optimization.optimizers.LightOptimizer;
 import com.zhouyi.mc3d3k.optimization.optimizers.TNTOptimizer;
+import com.zhouyi.mc3d3k.optimization.optimizers.VillagerOptimizer;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -34,6 +38,10 @@ public class Plugin3d3k extends JavaPlugin {
     private HopperOptimizer hopperOptimizer;
     private TNTOptimizer tntOptimizer;
     private AIOptimizer aiOptimizer;
+    private VillagerOptimizer villagerOptimizer;
+    private CollisionOptimizer collisionOptimizer;
+    private LightOptimizer lightOptimizer;
+    private DetectionManager detectionManager;
 
     private boolean enabledAll;
 
@@ -64,6 +72,9 @@ public class Plugin3d3k extends JavaPlugin {
         // 启动性能监控
         startMonitoring();
 
+        // 启动异常检测
+        startDetection();
+
         // 启动完成信息
         getServer().getConsoleSender().sendMessage(
                 Component.text("┌──────────────────────────────────────────┐", NamedTextColor.AQUA)
@@ -84,6 +95,11 @@ public class Plugin3d3k extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        // 停止异常检测
+        if (detectionManager != null) {
+            detectionManager.stop();
+        }
+
         // 停止监控
         if (performanceMonitor != null) {
             performanceMonitor.stop();
@@ -106,6 +122,15 @@ public class Plugin3d3k extends JavaPlugin {
         }
         if (aiOptimizer != null) {
             aiOptimizer.shutdown();
+        }
+        if (villagerOptimizer != null) {
+            villagerOptimizer.shutdown();
+        }
+        if (collisionOptimizer != null) {
+            collisionOptimizer.shutdown();
+        }
+        if (lightOptimizer != null) {
+            lightOptimizer.shutdown();
         }
 
         getLogger().info("3d3kOptimization 已卸载。");
@@ -170,6 +195,27 @@ public class Plugin3d3k extends JavaPlugin {
             getLogger().info("✓ AI 优化已加载");
         }
 
+        // 村民优化
+        if (configManager.isVillagerOptimizerEnabled()) {
+            this.villagerOptimizer = new VillagerOptimizer(this);
+            villagerOptimizer.init();
+            getLogger().info("✓ 村民优化已加载");
+        }
+
+        // 碰撞箱优化
+        if (configManager.isCollisionOptimizerEnabled()) {
+            this.collisionOptimizer = new CollisionOptimizer(this);
+            collisionOptimizer.init();
+            getLogger().info("✓ 碰撞箱优化已加载");
+        }
+
+        // 光照优化
+        if (configManager.isLightOptimizerEnabled()) {
+            this.lightOptimizer = new LightOptimizer(this);
+            lightOptimizer.init();
+            getLogger().info("✓ 光照优化已加载");
+        }
+
         this.enabledAll =
                 configManager.isEntityOptimizerEnabled() &&
                 configManager.isRedstoneOptimizerEnabled() &&
@@ -177,7 +223,10 @@ public class Plugin3d3k extends JavaPlugin {
                 configManager.isMobLimiterEnabled() &&
                 configManager.isHopperOptimizerEnabled() &&
                 configManager.isTntOptimizerEnabled() &&
-                configManager.isAiOptimizerEnabled();
+                configManager.isAiOptimizerEnabled() &&
+                configManager.isVillagerOptimizerEnabled() &&
+                configManager.isCollisionOptimizerEnabled() &&
+                configManager.isLightOptimizerEnabled();
     }
 
     private void registerListeners() {
@@ -196,6 +245,13 @@ public class Plugin3d3k extends JavaPlugin {
             this.performanceMonitor = new PerformanceMonitor(this);
             performanceMonitor.start();
             getLogger().info("✓ 性能监控已启动");
+        }
+    }
+
+    private void startDetection() {
+        if (configManager.isDetectionEnabled()) {
+            this.detectionManager = new DetectionManager(this);
+            detectionManager.start();
         }
     }
 
@@ -227,5 +283,9 @@ public class Plugin3d3k extends JavaPlugin {
 
     public OptimizationListener getOptimizationListener() {
         return optimizationListener;
+    }
+
+    public DetectionManager getDetectionManager() {
+        return detectionManager;
     }
 }

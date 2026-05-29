@@ -149,3 +149,96 @@ misc:
   disable-lightning: false
   # 经验球合并
   merge-xp: true
+
+# ─── 村民优化 ───
+villager:
+  # 是否启用村民优化
+  enabled: true
+  # 跳过村民交易的几率（0-1）
+  gossip-skip-chance: 0.3
+  # 村民冻结 AI 范围（方块）
+  freeze-range: 32
+  # 是否限制村民交易对话
+  limit-gossip: true
+  # 是否禁用村民繁殖
+  disable-breeding: false
+  # 是否限制 AI 任务
+  limit-ai-tasks: true
+
+# ─── 碰撞优化 ───
+collision:
+  # 是否启用碰撞优化
+  enabled: true
+  # 碰撞检查间隔（tick）
+  check-interval: 5
+  # 是否限制每区块碰撞检测
+  limit-per-chunk: true
+  # 每区块最大实体数
+  max-entities-per-chunk: 24
+  # 是否自动调整碰撞检测范围
+  auto-scale: true
+  # TPS 阈值（低于此值自动缩减碰撞检测）
+  tps-threshold: 17.0
+
+# ─── 光照优化 ───
+light:
+  # 是否启用光照优化
+  enabled: true
+  # 是否限制光照更新频率
+  throttle-updates: true
+  # 光照更新队列最大长度
+  max-queue-size: 500
+  # 光照卸载范围（区块）
+  unload-range: 12
+
+# ─── 异常检测 ───
+detection:
+  # 是否启用异常检测
+  enabled: true
+  # 检测间隔（tick）
+  check-interval: 100
+
+  # 掉落物堆积检测 - 同一位置大量掉落物堆积导致卡顿
+  item-pile:
+    # 是否启用
+    enabled: true
+    # 同一区块内最大掉落物数（超过此值触发告警）
+    max-per-chunk: 100
+    # 告警冷却时间（秒）
+    alert-cooldown: 60
+
+  # 实体密集区域检测 - 实体过于集中的区块
+  entity-density:
+    # 是否启用
+    enabled: true
+    # 高密度阈值（每区块实体数）
+    dense-threshold: 35
+    # 告警冷却时间（秒）
+    alert-cooldown: 120
+
+  # 区块负载检测 - 高负载区块（实体多、红石活跃）
+  chunk-load:
+    # 是否启用
+    enabled: true
+    # 高负载实体数阈值
+    entity-threshold: 50
+    # 高负载红石更新数阈值（每秒）
+    redstone-threshold: 80
+
+  # 实体生成风暴检测 - 短时间内大量实体生成
+  spawn-storm:
+    # 是否启用
+    enabled: true
+    # 每秒最大实体生成数（超过此值视为异常）
+    max-rate: 40
+    # 采样窗口（tick）
+    sample-window: 100
+
+  # 玩家行为检测 - 检测可能导致卡顿的玩家行为
+  player-behavior:
+    # 是否启用
+    enabled: true
+    # 每秒最大命令执行数
+    max-commands-per-second: 10
+    # 是否检测高频交互（如快速点击）
+    detect-high-frequency-interaction: true

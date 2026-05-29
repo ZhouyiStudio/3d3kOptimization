@@ -2,11 +2,13 @@ package com.zhouyi.mc3d3k.optimization.listeners;
 
 import com.zhouyi.mc3d3k.optimization.Plugin3d3k;
 import com.zhouyi.mc3d3k.optimization.config.ConfigManager;
+import com.zhouyi.mc3d3k.optimization.monitor.DetectionManager;
 import org.bukkit.Material;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.CreatureSpawnEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.entity.ExplosionPrimeEvent;
 import org.bukkit.event.entity.ItemSpawnEvent;
@@ -25,6 +27,7 @@ public class OptimizationListener implements Listener {
 
     private final Plugin3d3k plugin;
     private final ConfigManager config;
+    private final DetectionManager detectionManager;
 
     // 掉落物节流 - 防止同一位置生成大量掉落物
     private final Map<String, Long> lastItemSpawnMap = new HashMap<>();
@@ -32,6 +35,17 @@ public class OptimizationListener implements Listener {
     public OptimizationListener(Plugin3d3k plugin) {
         this.plugin = plugin;
         this.config = plugin.getConfigManager();
+        this.detectionManager = plugin.getDetectionManager();
+    }
+
+    /**
+     * 生物生成事件 - 记录到检测系统用于生成风暴检测
+     */
+    @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+    public void onCreatureSpawn(CreatureSpawnEvent event) {
+        if (detectionManager != null) {
+            detectionManager.recordEntitySpawn();
+        }
     }
 
     /**

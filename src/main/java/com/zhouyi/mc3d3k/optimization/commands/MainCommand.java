@@ -1,6 +1,7 @@
 package com.zhouyi.mc3d3k.optimization.commands;
 
 import com.zhouyi.mc3d3k.optimization.Plugin3d3k;
+import com.zhouyi.mc3d3k.optimization.monitor.DetectionManager;
 import com.zhouyi.mc3d3k.optimization.monitor.PerformanceMonitor;
 import com.zhouyi.mc3d3k.optimization.optimizers.ChunkOptimizer;
 import com.zhouyi.mc3d3k.optimization.optimizers.EntityOptimizer;
@@ -27,7 +28,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
     private final Plugin3d3k plugin;
 
     private static final List<String> SUB_COMMANDS = List.of(
-            "reload", "status", "gc", "entities", "chunks", "help"
+            "reload", "status", "gc", "entities", "chunks", "detect", "help"
     );
 
     public MainCommand(Plugin3d3k plugin) {
@@ -47,6 +48,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
             case "gc" -> handleGc(sender);
             case "entities" -> handleEntities(sender);
             case "chunks" -> handleChunks(sender);
+            case "detect" -> handleDetect(sender);
             case "help" -> sendHelp(sender);
             default -> sender.sendMessage(
                     Component.text("未知子命令。使用 /3d3k help 查看帮助。", NamedTextColor.RED)
@@ -192,15 +194,29 @@ public class MainCommand implements CommandExecutor, TabCompleter {
                             world.getName(), stats.loadedChunks(), stats.totalEntities()
                     ))
             );
+            }
+
+            sender.sendMessage(
+                    Component.text(" §7全服区块总数: §b" + totalChunks)
+            );
         }
 
-        sender.sendMessage(
-                Component.text(" §7全服区块总数: §b" + totalChunks)
-        );
-    }
+        /**
+         * 查看异常检测报告
+         */
+        private void handleDetect(CommandSender sender) {
+            DetectionManager detectionManager = plugin.getDetectionManager();
+            if (detectionManager == null) {
+                sender.sendMessage(Component.text("异常检测未启用。", NamedTextColor.RED));
+                return;
+            }
 
-    /**
-     * 发送帮助信息
+            DetectionManager.DetectionReport report = detectionManager.getReport();
+            sender.sendMessage(Component.text(report.toString()));
+        }
+
+        /**
+         * 发送帮助信息
      */
     private void sendHelp(CommandSender sender) {
         sender.sendMessage(Component.text("§6§l=== 3d3kOptimization 帮助 ==="));
@@ -208,6 +224,7 @@ public class MainCommand implements CommandExecutor, TabCompleter {
         sender.sendMessage(Component.text(" §7/3d3k §estatus §7- 查看服务器性能状态"));
         sender.sendMessage(Component.text(" §7/3d3k §eentities §7- 查看实体统计"));
         sender.sendMessage(Component.text(" §7/3d3k §echunks §7- 查看区块统计"));
+        sender.sendMessage(Component.text(" §7/3d3k §edetect §7- 查看异常检测报告"));
 
         if (sender.hasPermission("3d3k.admin")) {
             sender.sendMessage(Component.text(""));
