@@ -17,7 +17,8 @@ import org.bukkit.block.Furnace;
 import org.bukkit.block.BrewingStand;
 import org.bukkit.block.ShulkerBox;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.MinecartHopper;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -157,8 +158,12 @@ public class ContainerOptimizer {
         for (World world : Bukkit.getWorlds()) {
             if (world.getPlayers().isEmpty()) continue;
 
-            List<MinecartHopper> hopperMinecarts = new ArrayList<>(
-                    world.getEntitiesByClass(MinecartHopper.class));
+            List<Entity> hopperMinecarts = new ArrayList<>();
+            for (Entity entity : world.getEntities()) {
+                if (entity.getType() == EntityType.HOPPER_MINECART) {
+                    hopperMinecarts.add(entity);
+                }
+            }
 
             if (hopperMinecarts.isEmpty()) continue;
 
@@ -173,11 +178,11 @@ public class ContainerOptimizer {
             int end = Math.min(start + maxPerTick, hopperMinecarts.size());
 
             for (int i = start; i < end; i++) {
-                MinecartHopper minecart = hopperMinecarts.get(i);
+                Entity minecart = hopperMinecarts.get(i);
                 if (!minecart.isValid() || minecart.isDead()) continue;
 
                 // 空漏斗矿车提升为粒子效果减少
-                if (minecart.getPassengers().isEmpty() && minecart.isEmpty()) {
+                if (minecart.getPassengers().isEmpty() && ((Minecart) minecart).isEmpty()) {
                     // 标记为可以优化的空闲矿车
                 }
             }
@@ -207,7 +212,12 @@ public class ContainerOptimizer {
                 else if (isContainer(state)) other++;
             }
         }
-        hopperMinecarts = world.getEntitiesByClass(MinecartHopper.class).size();
+        // 统计漏斗矿车
+        for (Entity entity : world.getEntities()) {
+            if (entity.getType() == EntityType.HOPPER_MINECART) {
+                hopperMinecarts++;
+            }
+        }
 
         return new ContainerStats(chests, barrels, hoppers, furnaces, other, hopperMinecarts);
     }
