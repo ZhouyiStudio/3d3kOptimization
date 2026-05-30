@@ -83,8 +83,8 @@ public class ItemCleanupOptimizer {
             int worldKept = 0;
 
             // 获取该世界的白名单和黑名单
-            Set<String> whitelist = config.getItemCleanupWhitelist(worldName);
-            Set<String> blacklist = config.getItemCleanupBlacklist(worldName);
+            Set<String> whitelist = new HashSet<>(config.getItemCleanupWhitelist(worldName));
+            Set<String> blacklist = new HashSet<>(config.getItemCleanupBlacklist(worldName));
             boolean whitelistMode = config.isItemCleanupWhitelistMode(worldName);
 
             // 清理模式：false = 移除黑名单物品，true = 保留白名单物品
