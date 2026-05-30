@@ -224,6 +224,93 @@ light:
   # 光照卸载范围（区块）
   unload-range: 12
 
+# ─── 抛射物优化 ───
+projectile:
+  # 是否启用抛射物优化
+  enabled: true
+  # 抛射物最大存活时间（秒），超过此时间自动移除
+  max-age: 120
+  # 每个世界最大抛射物数（-1=不限制）
+  max-per-world: 200
+
+# ─── 交通工具优化（矿车/船） ───
+vehicle:
+  # 是否启用交通工具优化
+  enabled: true
+  # 每区块最大交通工具数（-1=不限制）
+  max-per-chunk: 20
+  # 空交通工具最大静止 tick 数，超过则移除（-1=不限制）
+  max-idle-ticks: 600
+
+# ─── 水生生物优化 ───
+water-mob:
+  # 是否启用水生生物优化
+  enabled: true
+  # AI 冻结范围（方块），超出此范围的水生生物冻结 AI
+  freeze-range: 24
+  # 每区块最大水生生物数（-1=不限制）
+  max-per-chunk: 15
+
+# ─── 刷怪笼优化 ───
+spawner:
+  # 是否启用刷怪笼优化
+  enabled: true
+  # 刷怪笼每 tick 最大生成数限制
+  max-spawn-rate: 3
+  # 刷怪笼周围最大实体数（超过此值暂停生成）
+  max-nearby-entities: 30
+  # 刷怪笼激活检测范围（方块）
+  check-radius: 24
+  # 刷怪笼生成激活延迟（tick）
+  activation-delay: 3
+
+# ─── 物品清理增强 ───
+item-cleanup:
+  # 是否启用物品清理增强
+  enabled: true
+  # 清理间隔（秒）
+  interval: 300
+  # 是否向管理员发送清理通知
+  notify-ops: true
+  # 禁用清理的世界列表
+  disabled-worlds:
+    - world_nether
+    - world_the_end
+  # 每个世界的独立清理配置
+  worlds:
+    world:
+      # 白名单模式：true=只清理白名单中的物品，false=清理所有不在白名单中的物品
+      whitelist-mode: false
+      # 白名单物品列表（whitelist-mode=true 时有效）
+      whitelist:
+        - DIRT
+        - COBBLESTONE
+        - GRAVEL
+        - SAND
+        - ROTTEN_FLESH
+        - BONE
+        - STRING
+        - SPIDER_EYE
+        - BOWL
+        - STICK
+      # 黑名单物品列表（whitelist-mode=false 时有效，为空时清理所有非贵重物品）
+      blacklist: []
+
+# ─── 容器优化 ───
+container:
+  # 是否启用容器优化
+  enabled: true
+  # 每区块最大容器数（超过此值视为高密度区域）
+  max-per-chunk: 30
+  # 是否优化漏斗矿车容器交互
+  optimize-hopper-minecart: true
+  # 漏斗矿车处理间隔（tick）
+  hopper-minecart-interval: 8
+  # 是否在高密度容器区域减少 tick
+  reduce-tick-in-dense-areas: true
+  # TPS 阈值（低于此值启用容器优化）
+  tps-threshold: 17.0
+
 # ─── 异常检测 ───
 detection:
   # 是否启用异常检测

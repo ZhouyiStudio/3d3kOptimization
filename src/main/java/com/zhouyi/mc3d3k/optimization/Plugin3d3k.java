@@ -44,6 +44,12 @@ public class Plugin3d3k extends JavaPlugin {
     private LightOptimizer lightOptimizer;
     private PlayerOptimizer playerOptimizer;
     private DetectionManager detectionManager;
+    private ProjectileOptimizer projectileOptimizer;
+    private VehicleOptimizer vehicleOptimizer;
+    private WaterMobOptimizer waterMobOptimizer;
+    private SpawnerOptimizer spawnerOptimizer;
+    private ItemCleanupOptimizer itemCleanupOptimizer;
+    private ContainerOptimizer containerOptimizer;
 
     private boolean enabledAll;
 
@@ -137,6 +143,24 @@ public class Plugin3d3k extends JavaPlugin {
         if (playerOptimizer != null) {
             playerOptimizer.shutdown();
         }
+        if (projectileOptimizer != null) {
+            projectileOptimizer.shutdown();
+        }
+        if (vehicleOptimizer != null) {
+            vehicleOptimizer.shutdown();
+        }
+        if (waterMobOptimizer != null) {
+            waterMobOptimizer.shutdown();
+        }
+        if (spawnerOptimizer != null) {
+            spawnerOptimizer.shutdown();
+        }
+        if (itemCleanupOptimizer != null) {
+            itemCleanupOptimizer.shutdown();
+        }
+        if (containerOptimizer != null) {
+            containerOptimizer.shutdown();
+        }
 
         getLogger().info("3d3kOptimization 已卸载。");
         instance = null;
@@ -227,6 +251,48 @@ public class Plugin3d3k extends JavaPlugin {
             playerOptimizer.init();
         }
 
+        // 抛射物优化
+        if (configManager.isProjectileOptimizerEnabled()) {
+            this.projectileOptimizer = new ProjectileOptimizer(this);
+            projectileOptimizer.init();
+            getLogger().info("✓ 抛射物优化已加载");
+        }
+
+        // 交通工具优化
+        if (configManager.isVehicleOptimizerEnabled()) {
+            this.vehicleOptimizer = new VehicleOptimizer(this);
+            vehicleOptimizer.init();
+            getLogger().info("✓ 交通工具优化已加载");
+        }
+
+        // 水生生物优化
+        if (configManager.isWaterMobOptimizerEnabled()) {
+            this.waterMobOptimizer = new WaterMobOptimizer(this);
+            waterMobOptimizer.init();
+            getLogger().info("✓ 水生生物优化已加载");
+        }
+
+        // 刷怪笼优化
+        if (configManager.isSpawnerOptimizerEnabled()) {
+            this.spawnerOptimizer = new SpawnerOptimizer(this);
+            spawnerOptimizer.init();
+            getLogger().info("✓ 刷怪笼优化已加载");
+        }
+
+        // 物品清理增强
+        if (configManager.isItemCleanupEnabled()) {
+            this.itemCleanupOptimizer = new ItemCleanupOptimizer(this);
+            itemCleanupOptimizer.init();
+            getLogger().info("✓ 物品清理增强已加载");
+        }
+
+        // 容器优化
+        if (configManager.isContainerOptimizerEnabled()) {
+            this.containerOptimizer = new ContainerOptimizer(this);
+            containerOptimizer.init();
+            getLogger().info("✓ 容器优化已加载");
+        }
+
         this.enabledAll =
                 configManager.isEntityOptimizerEnabled() &&
                 configManager.isRedstoneOptimizerEnabled() &&
@@ -238,7 +304,13 @@ public class Plugin3d3k extends JavaPlugin {
                 configManager.isVillagerOptimizerEnabled() &&
                 configManager.isCollisionOptimizerEnabled() &&
                 configManager.isLightOptimizerEnabled() &&
-                configManager.isPlayerOptimizerEnabled();
+                configManager.isPlayerOptimizerEnabled() &&
+                configManager.isProjectileOptimizerEnabled() &&
+                configManager.isVehicleOptimizerEnabled() &&
+                configManager.isWaterMobOptimizerEnabled() &&
+                configManager.isSpawnerOptimizerEnabled() &&
+                configManager.isItemCleanupEnabled() &&
+                configManager.isContainerOptimizerEnabled();
     }
 
     private void registerListeners() {
@@ -303,5 +375,29 @@ public class Plugin3d3k extends JavaPlugin {
 
     public PlayerOptimizer getPlayerOptimizer() {
         return playerOptimizer;
+    }
+
+    public ProjectileOptimizer getProjectileOptimizer() {
+        return projectileOptimizer;
+    }
+
+    public VehicleOptimizer getVehicleOptimizer() {
+        return vehicleOptimizer;
+    }
+
+    public WaterMobOptimizer getWaterMobOptimizer() {
+        return waterMobOptimizer;
+    }
+
+    public SpawnerOptimizer getSpawnerOptimizer() {
+        return spawnerOptimizer;
+    }
+
+    public ItemCleanupOptimizer getItemCleanupOptimizer() {
+        return itemCleanupOptimizer;
+    }
+
+    public ContainerOptimizer getContainerOptimizer() {
+        return containerOptimizer;
     }
 }

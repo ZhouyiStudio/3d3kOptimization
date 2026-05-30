@@ -57,6 +57,47 @@ public class ConfigManager {
     private int lightMaxQueueSize;
     private int lightUnloadRange;
 
+    // ─── 抛射物优化 ───
+    private boolean projectileOptimizerEnabled;
+    private int projectileMaxAge;
+    private int projectileMaxPerWorld;
+
+    // ─── 交通工具优化 ───
+    private boolean vehicleOptimizerEnabled;
+    private int vehicleMaxPerChunk;
+    private int vehicleMaxIdleTicks;
+
+    // ─── 水生生物优化 ───
+    private boolean waterMobOptimizerEnabled;
+    private int waterMobFreezeRange;
+    private int waterMobMaxPerChunk;
+
+    // ─── 刷怪笼优化 ───
+    private boolean spawnerOptimizerEnabled;
+    private int spawnerMaxSpawnRate;
+    private int spawnerMaxNearbyEntities;
+    private int spawnerCheckRadius;
+    private int spawnerActivationDelay;
+
+    // ─── 物品清理增强 ───
+    private boolean itemCleanupEnabled;
+    private int itemCleanupInterval;
+    private boolean itemCleanupNotifyOps;
+    private final List<String> itemCleanupDisabledWorlds = new ArrayList<>();
+    private final Map<String, Boolean> itemCleanupWhitelistMode = new HashMap<>();
+    private final Map<String, List<String>> itemCleanupWhitelist = new HashMap<>();
+    private final Map<String, List<String>> itemCleanupBlacklist = new HashMap<>();
+    // 每个世界的自定义清理间隔（秒），0 表示使用全局间隔
+    private final Map<String, Integer> itemCleanupWorldInterval = new HashMap<>();
+
+    // ─── 容器优化 ───
+    private boolean containerOptimizerEnabled;
+    private int containerMaxPerChunk;
+    private boolean containerOptimizeHopperMinecart;
+    private int containerHopperMinecartInterval;
+    private boolean containerReduceTickInDenseAreas;
+    private double containerTpsThreshold;
+
     // ─── 玩家优化 ───
     private boolean playerOptimizerEnabled;
     private boolean playerAfkEnabled;
@@ -253,6 +294,54 @@ public class ConfigManager {
         this.lightThrottleUpdates = config.getBoolean("light.throttle-updates", true);
         this.lightMaxQueueSize = config.getInt("light.max-queue-size", 500);
         this.lightUnloadRange = config.getInt("light.unload-range", 12);
+
+        // 抛射物优化
+        this.projectileOptimizerEnabled = config.getBoolean("projectile.enabled", true);
+        this.projectileMaxAge = config.getInt("projectile.max-age", 120);
+        this.projectileMaxPerWorld = config.getInt("projectile.max-per-world", 200);
+
+        // 交通工具优化
+        this.vehicleOptimizerEnabled = config.getBoolean("vehicle.enabled", true);
+        this.vehicleMaxPerChunk = config.getInt("vehicle.max-per-chunk", 20);
+        this.vehicleMaxIdleTicks = config.getInt("vehicle.max-idle-ticks", 600);
+
+        // 水生生物优化
+        this.waterMobOptimizerEnabled = config.getBoolean("water-mob.enabled", true);
+        this.waterMobFreezeRange = config.getInt("water-mob.freeze-range", 24);
+        this.waterMobMaxPerChunk = config.getInt("water-mob.max-per-chunk", 15);
+
+        // 刷怪笼优化
+        this.spawnerOptimizerEnabled = config.getBoolean("spawner.enabled", true);
+        this.spawnerMaxSpawnRate = config.getInt("spawner.max-spawn-rate", 3);
+        this.spawnerMaxNearbyEntities = config.getInt("spawner.max-nearby-entities", 30);
+        this.spawnerCheckRadius = config.getInt("spawner.check-radius", 24);
+        this.spawnerActivationDelay = config.getInt("spawner.activation-delay", 3);
+
+        // 物品清理增强
+        this.itemCleanupEnabled = config.getBoolean("item-cleanup.enabled", true);
+        this.itemCleanupInterval = config.getInt("item-cleanup.interval", 300);
+        this.itemCleanupNotifyOps = config.getBoolean("item-cleanup.notify-ops", true);
+        this.itemCleanupDisabledWorlds.clear();
+        this.itemCleanupDisabledWorlds.addAll(config.getStringList("item-cleanup.disabled-worlds"));
+        // 加载每个世界的独立配置
+        ConfigurationSection worldsSection = config.getConfigurationSection("item-cleanup.worlds");
+        if (worldsSection != null) {
+            for (String worldName : worldsSection.getKeys(false)) {
+                ConfigurationSection worldSection = worldsSection.getConfigurationSection(worldName);
+                if (worldSection == null) continue;
+                this.itemCleanupWhitelistMode.put(worldName, worldSection.getBoolean("whitelist-mode", false));
+                this.itemCleanupWhitelist.put(worldName, worldSection.getStringList("whitelist"));
+                this.itemCleanupBlacklist.put(worldName, worldSection.getStringList("blacklist"));
+            }
+        }
+
+        // 容器优化
+        this.containerOptimizerEnabled = config.getBoolean("container.enabled", true);
+        this.containerMaxPerChunk = config.getInt("container.max-per-chunk", 30);
+        this.containerOptimizeHopperMinecart = config.getBoolean("container.optimize-hopper-minecart", true);
+        this.containerHopperMinecartInterval = config.getInt("container.hopper-minecart-interval", 8);
+        this.containerReduceTickInDenseAreas = config.getBoolean("container.reduce-tick-in-dense-areas", true);
+        this.containerTpsThreshold = config.getDouble("container.tps-threshold", 17.0);
 
         // 玩家优化
         this.playerOptimizerEnabled = config.getBoolean("player.enabled", true);
@@ -688,5 +777,123 @@ public class ConfigManager {
 
     public boolean isPlayerBehaviorDetectHighFrequencyInteraction() {
         return playerBehaviorDetectHighFrequencyInteraction;
+    }
+
+    // ─── 抛射物优化 Getters ───
+    public boolean isProjectileOptimizerEnabled() {
+        return projectileOptimizerEnabled;
+    }
+
+    public int getProjectileMaxAge() {
+        return projectileMaxAge;
+    }
+
+    public int getProjectileMaxPerWorld() {
+        return projectileMaxPerWorld;
+    }
+
+    // ─── 交通工具优化 Getters ───
+    public boolean isVehicleOptimizerEnabled() {
+        return vehicleOptimizerEnabled;
+    }
+
+    public int getVehicleMaxPerChunk() {
+        return vehicleMaxPerChunk;
+    }
+
+    public int getVehicleMaxIdleTicks() {
+        return vehicleMaxIdleTicks;
+    }
+
+    // ─── 水生生物优化 Getters ───
+    public boolean isWaterMobOptimizerEnabled() {
+        return waterMobOptimizerEnabled;
+    }
+
+    public int getWaterMobFreezeRange() {
+        return waterMobFreezeRange;
+    }
+
+    public int getWaterMobMaxPerChunk() {
+        return waterMobMaxPerChunk;
+    }
+
+    // ─── 刷怪笼优化 Getters ───
+    public boolean isSpawnerOptimizerEnabled() {
+        return spawnerOptimizerEnabled;
+    }
+
+    public int getSpawnerMaxSpawnRate() {
+        return spawnerMaxSpawnRate;
+    }
+
+    public int getSpawnerMaxNearbyEntities() {
+        return spawnerMaxNearbyEntities;
+    }
+
+    public int getSpawnerCheckRadius() {
+        return spawnerCheckRadius;
+    }
+
+    public int getSpawnerActivationDelay() {
+        return spawnerActivationDelay;
+    }
+
+    // ─── 物品清理增强 Getters ───
+    public boolean isItemCleanupEnabled() {
+        return itemCleanupEnabled;
+    }
+
+    public int getItemCleanupInterval() {
+        return itemCleanupInterval;
+    }
+
+    public boolean isItemCleanupNotifyOps() {
+        return itemCleanupNotifyOps;
+    }
+
+    public List<String> getItemCleanupDisabledWorlds() {
+        return Collections.unmodifiableList(itemCleanupDisabledWorlds);
+    }
+
+    public boolean isItemCleanupWhitelistMode(String worldName) {
+        return itemCleanupWhitelistMode.getOrDefault(worldName, false);
+    }
+
+    public List<String> getItemCleanupWhitelist(String worldName) {
+        return itemCleanupWhitelist.getOrDefault(worldName, Collections.emptyList());
+    }
+
+    public List<String> getItemCleanupBlacklist(String worldName) {
+        return itemCleanupBlacklist.getOrDefault(worldName, Collections.emptyList());
+    }
+
+    public int getItemCleanupWorldInterval(String worldName) {
+        return itemCleanupWorldInterval.getOrDefault(worldName, 0);
+    }
+
+    // ─── 容器优化 Getters ───
+    public boolean isContainerOptimizerEnabled() {
+        return containerOptimizerEnabled;
+    }
+
+    public int getContainerMaxPerChunk() {
+        return containerMaxPerChunk;
+    }
+
+    public boolean isContainerOptimizeHopperMinecart() {
+        return containerOptimizeHopperMinecart;
+    }
+
+    public int getContainerHopperMinecartInterval() {
+        return containerHopperMinecartInterval;
+    }
+
+    public boolean isContainerReduceTickInDenseAreas() {
+        return containerReduceTickInDenseAreas;
+    }
+
+    public double getContainerTpsThreshold() {
+        return containerTpsThreshold;
     }
 }
