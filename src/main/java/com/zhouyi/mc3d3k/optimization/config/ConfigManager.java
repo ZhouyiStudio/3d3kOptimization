@@ -181,6 +181,33 @@ public class ConfigManager {
     private boolean disableLightning;
     private boolean mergeXp;
 
+    // ─── 经验球优化 ───
+    private boolean experienceOptimizerEnabled;
+    private int experienceMaxPerChunk;
+    private int experienceFreezeRange;
+    private double experienceTpsThreshold;
+
+    // ─── 方块物理优化 ───
+    private boolean physicsOptimizerEnabled;
+    private int physicsFallingBlockFreezeRange;
+    private boolean physicsLimitLiquidFlow;
+    private int physicsLiquidFlowRange;
+    private boolean physicsLimitPistonPhysics;
+    private double physicsTpsThreshold;
+
+    // ─── Tick 分布优化 ───
+    private boolean tickDistributorEnabled;
+    private int tickDistributorNearRange;
+    private int tickDistributorMidRange;
+    private double tickDistributorTpsThreshold;
+
+    // ─── 农田优化 ───
+    private boolean farmlandOptimizerEnabled;
+    private int farmlandMaxCropsPerChunk;
+    private int farmlandGrowthRange;
+    private boolean farmlandLimitHydrationCheck;
+    private double farmlandTpsThreshold;
+
     public ConfigManager(Plugin3d3k plugin) {
         this.plugin = plugin;
         loadConfig(plugin.getConfig());
@@ -342,6 +369,33 @@ public class ConfigManager {
         this.containerHopperMinecartInterval = config.getInt("container.hopper-minecart-interval", 8);
         this.containerReduceTickInDenseAreas = config.getBoolean("container.reduce-tick-in-dense-areas", true);
         this.containerTpsThreshold = config.getDouble("container.tps-threshold", 17.0);
+
+        // 经验球优化
+        this.experienceOptimizerEnabled = config.getBoolean("experience.enabled", true);
+        this.experienceMaxPerChunk = config.getInt("experience.max-per-chunk", 50);
+        this.experienceFreezeRange = config.getInt("experience.freeze-range", 32);
+        this.experienceTpsThreshold = config.getDouble("experience.tps-threshold", 16.0);
+
+        // 方块物理优化
+        this.physicsOptimizerEnabled = config.getBoolean("physics.enabled", true);
+        this.physicsFallingBlockFreezeRange = config.getInt("physics.falling-block-freeze-range", 48);
+        this.physicsLimitLiquidFlow = config.getBoolean("physics.limit-liquid-flow", true);
+        this.physicsLiquidFlowRange = config.getInt("physics.liquid-flow-range", 16);
+        this.physicsLimitPistonPhysics = config.getBoolean("physics.limit-piston-physics", true);
+        this.physicsTpsThreshold = config.getDouble("physics.tps-threshold", 16.0);
+
+        // Tick 分布优化
+        this.tickDistributorEnabled = config.getBoolean("tick-distributor.enabled", true);
+        this.tickDistributorNearRange = config.getInt("tick-distributor.near-range", 16);
+        this.tickDistributorMidRange = config.getInt("tick-distributor.mid-range", 48);
+        this.tickDistributorTpsThreshold = config.getDouble("tick-distributor.tps-threshold", 17.0);
+
+        // 农田优化
+        this.farmlandOptimizerEnabled = config.getBoolean("farmland.enabled", true);
+        this.farmlandMaxCropsPerChunk = config.getInt("farmland.max-crops-per-chunk", 500);
+        this.farmlandGrowthRange = config.getInt("farmland.growth-range", 32);
+        this.farmlandLimitHydrationCheck = config.getBoolean("farmland.limit-hydration-check", true);
+        this.farmlandTpsThreshold = config.getDouble("farmland.tps-threshold", 16.0);
 
         // 玩家优化
         this.playerOptimizerEnabled = config.getBoolean("player.enabled", true);
@@ -895,5 +949,85 @@ public class ConfigManager {
 
     public double getContainerTpsThreshold() {
         return containerTpsThreshold;
+    }
+
+    // ─── 经验球优化 Getters ───
+    public boolean isExperienceOptimizerEnabled() {
+        return experienceOptimizerEnabled;
+    }
+
+    public int getExperienceMaxPerChunk() {
+        return experienceMaxPerChunk;
+    }
+
+    public int getExperienceFreezeRange() {
+        return experienceFreezeRange;
+    }
+
+    public double getExperienceTpsThreshold() {
+        return experienceTpsThreshold;
+    }
+
+    // ─── 方块物理优化 Getters ───
+    public boolean isPhysicsOptimizerEnabled() {
+        return physicsOptimizerEnabled;
+    }
+
+    public int getPhysicsFallingBlockFreezeRange() {
+        return physicsFallingBlockFreezeRange;
+    }
+
+    public boolean isPhysicsLimitLiquidFlow() {
+        return physicsLimitLiquidFlow;
+    }
+
+    public int getPhysicsLiquidFlowRange() {
+        return physicsLiquidFlowRange;
+    }
+
+    public boolean isPhysicsLimitPistonPhysics() {
+        return physicsLimitPistonPhysics;
+    }
+
+    public double getPhysicsTpsThreshold() {
+        return physicsTpsThreshold;
+    }
+
+    // ─── Tick 分布优化 Getters ───
+    public boolean isTickDistributorEnabled() {
+        return tickDistributorEnabled;
+    }
+
+    public int getTickDistributorNearRange() {
+        return tickDistributorNearRange;
+    }
+
+    public int getTickDistributorMidRange() {
+        return tickDistributorMidRange;
+    }
+
+    public double getTickDistributorTpsThreshold() {
+        return tickDistributorTpsThreshold;
+    }
+
+    // ─── 农田优化 Getters ───
+    public boolean isFarmlandOptimizerEnabled() {
+        return farmlandOptimizerEnabled;
+    }
+
+    public int getFarmlandMaxCropsPerChunk() {
+        return farmlandMaxCropsPerChunk;
+    }
+
+    public int getFarmlandGrowthRange() {
+        return farmlandGrowthRange;
+    }
+
+    public boolean isFarmlandLimitHydrationCheck() {
+        return farmlandLimitHydrationCheck;
+    }
+
+    public double getFarmlandTpsThreshold() {
+        return farmlandTpsThreshold;
     }
 }

@@ -56,6 +56,10 @@ public class Plugin3d3k extends JavaPlugin {
     private SpawnerOptimizer spawnerOptimizer;
     private ItemCleanupOptimizer itemCleanupOptimizer;
     private ContainerOptimizer containerOptimizer;
+    private ExperienceOptimizer experienceOptimizer;
+    private PhysicsOptimizer physicsOptimizer;
+    private TickDistributor tickDistributor;
+    private FarmlandOptimizer farmlandOptimizer;
 
     private boolean enabledAll;
 
@@ -166,6 +170,18 @@ public class Plugin3d3k extends JavaPlugin {
         }
         if (containerOptimizer != null) {
             containerOptimizer.shutdown();
+        }
+        if (experienceOptimizer != null) {
+            experienceOptimizer.shutdown();
+        }
+        if (physicsOptimizer != null) {
+            physicsOptimizer.shutdown();
+        }
+        if (tickDistributor != null) {
+            tickDistributor.shutdown();
+        }
+        if (farmlandOptimizer != null) {
+            farmlandOptimizer.shutdown();
         }
 
         getLogger().info("3d3kOptimization 已卸载。");
@@ -299,6 +315,34 @@ public class Plugin3d3k extends JavaPlugin {
             getLogger().info("✓ 容器优化已加载");
         }
 
+        // 经验球优化
+        if (configManager.isExperienceOptimizerEnabled()) {
+            this.experienceOptimizer = new ExperienceOptimizer(this);
+            experienceOptimizer.init();
+            getLogger().info("✓ 经验球优化已加载");
+        }
+
+        // 方块物理优化
+        if (configManager.isPhysicsOptimizerEnabled()) {
+            this.physicsOptimizer = new PhysicsOptimizer(this);
+            physicsOptimizer.init();
+            getLogger().info("✓ 方块物理优化已加载");
+        }
+
+        // Tick 分布优化
+        if (configManager.isTickDistributorEnabled()) {
+            this.tickDistributor = new TickDistributor(this);
+            tickDistributor.init();
+            getLogger().info("✓ Tick 分布优化已加载");
+        }
+
+        // 农田优化
+        if (configManager.isFarmlandOptimizerEnabled()) {
+            this.farmlandOptimizer = new FarmlandOptimizer(this);
+            farmlandOptimizer.init();
+            getLogger().info("✓ 农田优化已加载");
+        }
+
         this.enabledAll =
                 configManager.isEntityOptimizerEnabled() &&
                 configManager.isRedstoneOptimizerEnabled() &&
@@ -316,7 +360,11 @@ public class Plugin3d3k extends JavaPlugin {
                 configManager.isWaterMobOptimizerEnabled() &&
                 configManager.isSpawnerOptimizerEnabled() &&
                 configManager.isItemCleanupEnabled() &&
-                configManager.isContainerOptimizerEnabled();
+                configManager.isContainerOptimizerEnabled() &&
+                configManager.isExperienceOptimizerEnabled() &&
+                configManager.isPhysicsOptimizerEnabled() &&
+                configManager.isTickDistributorEnabled() &&
+                configManager.isFarmlandOptimizerEnabled();
     }
 
     private void registerListeners() {
@@ -405,5 +453,21 @@ public class Plugin3d3k extends JavaPlugin {
 
     public ContainerOptimizer getContainerOptimizer() {
         return containerOptimizer;
+    }
+
+    public ExperienceOptimizer getExperienceOptimizer() {
+        return experienceOptimizer;
+    }
+
+    public PhysicsOptimizer getPhysicsOptimizer() {
+        return physicsOptimizer;
+    }
+
+    public TickDistributor getTickDistributor() {
+        return tickDistributor;
+    }
+
+    public FarmlandOptimizer getFarmlandOptimizer() {
+        return farmlandOptimizer;
     }
 }

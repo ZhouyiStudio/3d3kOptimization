@@ -311,6 +311,56 @@ container:
   # TPS 阈值（低于此值启用容器优化）
   tps-threshold: 17.0
 
+# ─── 经验球优化 ───
+experience:
+  # 是否启用经验球优化
+  enabled: true
+  # 每区块最大经验球数
+  max-per-chunk: 50
+  # 冻结范围（超过此距离停止经验球 tick）
+  freeze-range: 32
+  # TPS 阈值（低于此值自动移除 30% 经验球）
+  tps-threshold: 16.0
+
+# ─── 方块物理优化 ───
+physics:
+  # 是否启用方块物理优化
+  enabled: true
+  # 重力方块冻结范围（超过此距离冻结掉落实体）
+  falling-block-freeze-range: 48
+  # 是否限制液体流动更新
+  limit-liquid-flow: true
+  # 液体活跃更新范围
+  liquid-flow-range: 16
+  # 是否限制活塞物理更新
+  limit-piston-physics: true
+  # TPS 阈值（低于此值自动移除远距离重力方块）
+  tps-threshold: 16.0
+
+# ─── Tick 分布优化 ───
+tick-distributor:
+  # 是否启用 Tick 分布优化（平滑 TPS 峰值）
+  enabled: true
+  # 近距离范围（此范围内实体全频 tick）
+  near-range: 16
+  # 中距离范围（此范围内实体半频 tick）
+  mid-range: 48
+  # TPS 阈值（低于此值启用分级 tick 降频）
+  tps-threshold: 17.0
+
+# ─── 农田优化 ───
+farmland:
+  # 是否启用农田优化
+  enabled: true
+  # 每区块最大作物数（超过则重置多余作物生长）
+  max-crops-per-chunk: 500
+  # 作物活跃生长范围（此范围外作物降频）
+  growth-range: 32
+  # 是否限制耕地湿度检查频率
+  limit-hydration-check: true
+  # TPS 阈值（低于此值跳过远距离农田 tick）
+  tps-threshold: 16.0
+
 # ─── 异常检测 ───
 detection:
   # 是否启用异常检测
